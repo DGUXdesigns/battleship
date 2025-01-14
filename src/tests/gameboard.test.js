@@ -74,4 +74,18 @@ describe('ship placement', () => {
       board.placeShipVertical(ship, 9, 0);
     }).toThrowError('Cannot place ship here');
   });
+
+  test('Ships should not overlap on the board', () => {
+    const ship1 = { length: 3 };
+    const ship2 = { length: 3 };
+
+    board.placeShipHorizontal(ship1, 1, 1);
+    expect(() => {
+      board.placeShipHorizontal(ship2, 1, 2);
+    }).toThrowError('Cannot place ship here');
+
+    expect(() => {
+      board.placeShipVertical(ship2, 1, 2);
+    }).toThrowError('Cannot place ship here');
+  });
 });
