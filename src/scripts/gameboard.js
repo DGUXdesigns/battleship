@@ -16,32 +16,43 @@ export class Gameboard {
   }
 
   placeShip(ship, row, col, direction) {
-    if (direction === 'horizontal') {
-      if (col + ship.length > this.size) {
-        throw new Error('Cannot place ship here');
-      }
+    if (!this.isValidPlacement(ship, row, col, direction)) {
+      throw new Error('Cannot place ship here');
+    }
 
-      for (let i = 0; i < ship.length; i++) {
-        if (this.board[row][col + i] === 1) {
-          throw new Error('Ships cannot overlap');
-        }
+    if (this.isOverlapping(ship, row, col, direction)) {
+      throw new Error('Ships cannot overlap');
+    }
 
-        this.board[row][col + i] = 1;
-      }
-    } else {
-      if (row + ship.length > this.size) {
-        throw new Error('Cannot place ship here');
-      }
+    for (let i = 0; i < ship.length; i++) {
+      const currentRow = direction === 'horizontal' ? row : row + i;
+      const currentCol = direction === 'horizontal' ? col + i : col;
 
-      for (let i = 0; i < ship.length; i++) {
-        if (this.board[row + i][col] === 1) {
-          throw new Error('Ships cannot overlap');
-        }
-
-        this.board[row + i][col] = 1;
-      }
+      this.board[currentRow][currentCol] = 1;
     }
 
     this.ships.push(ship);
+  }
+
+  isValidPlacement(ship, row, col, direction) {
+    if (direction === 'horizontal' && col + ship.length > this.size) {
+      return false;
+    }
+    if (direction === 'vertical' && row + ship.length > this.size) {
+      return false;
+    }
+    return true;
+  }
+
+  isOverlapping(ship, row, col, direction) {
+    for (let i = 0; i < ship.length; i++) {
+      const currentRow = direction === 'horizontal' ? row : row + i;
+      const currentCol = direction === 'horizontal' ? col + i : col;
+
+      if (this.board[currentRow][currentCol] === 1) {
+        return true;
+      }
+    }
+    return false;
   }
 }
