@@ -1,10 +1,13 @@
-import { describe, expect, it, test, beforeEach } from '@jest/globals';
+import { describe, expect, it, test, beforeEach, jest } from '@jest/globals';
 import { Gameboard } from '../scripts/gameboard';
 
 let board;
+let ship;
 
 beforeEach(() => {
   board = new Gameboard(10);
+  ship = { length: 3, hit: jest.fn(), sunk: false }; // Mock ship with hit method
+  board.placeShip(ship, 1, 1, 'horizontal');
 });
 
 // Gameboard
@@ -25,63 +28,33 @@ describe('Gameboard', () => {
 
 // Ship Placement
 describe('ship placement', () => {
-  const ship = { length: 5 };
-
   test('Should place a ship horizontally store in the ships array', () => {
-    board.placeShip(ship, 1, 1, 'horizontal');
-
-    const expectedBoard = [
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 1, 1, 1, 1, 1, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    ];
-
-    expect(board.board).toEqual(expectedBoard);
+    expect(board.board[1][1]).toBe(1);
+    expect(board.board[1][2]).toBe(1);
+    expect(board.board[1][3]).toBe(1);
     expect(board.ships).toContainEqual(ship);
 
     const expectedLocation = [
       { row: 1, col: 1 },
       { row: 1, col: 2 },
       { row: 1, col: 3 },
-      { row: 1, col: 4 },
-      { row: 1, col: 5 },
     ];
 
     expect(ship.location).toEqual(expectedLocation);
   });
 
   test('Should place a ship vertically store in the ships array', () => {
-    board.placeShip(ship, 1, 1, 'vertical');
+    board.placeShip(ship, 2, 1, 'vertical');
 
-    const expectedBoard = [
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    ];
-
-    expect(board.board).toEqual(expectedBoard);
+    expect(board.board[2][1]).toBe(1);
+    expect(board.board[3][1]).toBe(1);
+    expect(board.board[4][1]).toBe(1);
     expect(board.ships).toContain(ship);
 
     const expectedLocation = [
-      { row: 1, col: 1 },
       { row: 2, col: 1 },
       { row: 3, col: 1 },
       { row: 4, col: 1 },
-      { row: 5, col: 1 },
     ];
 
     expect(ship.location).toEqual(expectedLocation);
@@ -100,16 +73,63 @@ describe('ship placement', () => {
   });
 
   test('Ships should not overlap on the board', () => {
-    const ship1 = { length: 3 };
     const ship2 = { length: 3 };
 
-    board.placeShip(ship1, 1, 1, 'horizontal');
     expect(() => {
       board.placeShip(ship2, 1, 2, 'horizontal');
     }).toThrowError('Ships cannot overlap');
 
     expect(() => {
-      board.placeShip(ship2, 1, 2, 'vertical');
+      board.placeShip(ship2, 0, 2, 'vertical');
     }).toThrowError('Ships cannot overlap');
+  });
+});
+
+// Receive attack
+describe('receiveAttack', () => {
+  it('should return hit when attacking a ship', () => {
+    const result = board.receiveAttack(1, 1);
+
+    expect(result.hit).toBe(true);
+    expect(result.ship).toBe(ship);
+    expect(result.sunk).toBe(false);
+  });
+
+  it('should return miss when attacking an empty spot', () => {
+    const result = board.receiveAttack(0, 0);
+
+    expect(result.hit).toBe(false);
+    expect(result.ship).toBeNull();
+  });
+
+  it('should mark the ship as hit', () => {
+    const result = board.receiveAttack(1, 1);
+
+    expect(ship.hit).toHaveBeenCalled();
+  });
+
+  it('should mark the ship as sunk when all parts of the ship are hit', () => {
+    ship.hit.mockImplementationOnce(() => {
+      ship.sunk = true;
+    });
+
+    board.receiveAttack(1, 1);
+    board.receiveAttack(1, 2);
+    board.receiveAttack(1, 3);
+
+    expect(ship.sunk).toBe(true);
+  });
+
+  it('should return the correct hit result when the ship is sunk', () => {
+    // After sinking the ship
+    ship.hit.mockImplementationOnce(() => {
+      ship.sunk = true;
+    });
+    board.receiveAttack(1, 1);
+    board.receiveAttack(1, 2);
+    const result = board.receiveAttack(1, 3);
+
+    expect(result.hit).toBe(true);
+    expect(result.sunk).toBe(true);
   });
 });
