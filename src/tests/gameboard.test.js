@@ -24,6 +24,29 @@ describe('Gameboard', () => {
       expect(row.length).toBe(10);
     });
   });
+
+  describe('gameOver', () => {
+    it('should return "Game over, all your ships have sunk" when all ships are sunk', () => {
+      ship.sunk = true;
+
+      const result = board.gameOver();
+      expect(result).toBe('Game over, all your ships have sunk');
+    });
+
+    it('should return undefined when not all ships are sunk', () => {
+      ship.sunk = false;
+
+      const result = board.gameOver();
+      expect(result).toBeUndefined();
+    });
+
+    it('should return undefined if no ships are placed', () => {
+      board = new Gameboard(10);
+
+      const result = board.gameOver();
+      expect(result).toBeUndefined();
+    });
+  });
 });
 
 // Ship Placement
