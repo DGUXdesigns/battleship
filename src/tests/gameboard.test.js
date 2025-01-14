@@ -60,4 +60,20 @@ describe('Gameboard', () => {
 
     expect(board.board).toEqual(expectedBoard);
   });
+
+  describe('Out-of-bounds ship placement', () => {
+    const ship = { length: 5 };
+
+    test('Horizontal placement should not allow out-of-bounds', () => {
+      expect(() => {
+        board.placeShipHorizontal(ship, 7, 8);
+      }).toThrowError('Cannot place ship here');
+    });
+
+    test('Vertical placement should not allow out-of-bounds', () => {
+      expect(() => {
+        board.placeShipVertical(ship, 7, 8);
+      }).toThrowError('Cannot place ship here');
+    });
+  });
 });
