@@ -5,7 +5,7 @@ export class Ship {
         this.sunk = false;
     }
 
-    hits() {
+    hit() {
         this.hits++;
     }
 
