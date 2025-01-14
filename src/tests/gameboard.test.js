@@ -1,8 +1,12 @@
-import { describe, expect, it, test } from '@jest/globals';
+import { describe, expect, it, test, beforeEach } from '@jest/globals';
 import { Gameboard } from '../scripts/gameboard';
 
 describe('Gameboard', () => {
-  const board = new Gameboard(10);
+  let board;
+
+  beforeEach(() => {
+    board = new Gameboard(10);
+  });
 
   it('should be an Object', () => {
     expect(board).toBeInstanceOf(Object);
@@ -15,5 +19,45 @@ describe('Gameboard', () => {
       expect(row).toBeInstanceOf(Array);
       expect(row.length).toBe(10);
     });
+  });
+
+  test('placeShipHorizontal places a ship horizantally on the board', () => {
+    const ship = { length: 3 };
+    board.placeShipHorizontal(ship, 1, 1);
+
+    const expectedBoard = [
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ];
+
+    expect(board.board).toEqual(expectedBoard);
+  });
+
+  test('placeShipVertical places a ship vertically on the board', () => {
+    const ship = { length: 5 };
+    board.placeShipVertical(ship, 1, 1);
+
+    const expectedBoard = [
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ];
+
+    expect(board.board).toEqual(expectedBoard);
   });
 });
