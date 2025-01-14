@@ -15,33 +15,31 @@ export class Gameboard {
     return board;
   }
 
-  placeShipHorizontal(ship, row, col) {
-    if (col + ship.length > this.size) {
-      throw new Error('Cannot place ship here');
-    }
-
-    for (let i = 0; i < ship.length; i++) {
-      if (this.board[row][col + i] === 1) {
-        throw new Error('Ships cannot overlap');
+  placeShip(ship, row, col, direction) {
+    if (direction === 'horizontal') {
+      if (col + ship.length > this.size) {
+        throw new Error('Cannot place ship here');
       }
 
-      this.board[row][col + i] = 1;
-    }
+      for (let i = 0; i < ship.length; i++) {
+        if (this.board[row][col + i] === 1) {
+          throw new Error('Ships cannot overlap');
+        }
 
-    this.ships.push(ship);
-  }
-
-  placeShipVertical(ship, row, col) {
-    if (row + ship.length > this.size) {
-      throw new Error('Cannot place ship here');
-    }
-
-    for (let i = 0; i < ship.length; i++) {
-      if (this.board[row + i][col] === 1) {
-        throw new Error('Ships cannot overlap');
+        this.board[row][col + i] = 1;
+      }
+    } else {
+      if (row + ship.length > this.size) {
+        throw new Error('Cannot place ship here');
       }
 
-      this.board[row + i][col] = 1;
+      for (let i = 0; i < ship.length; i++) {
+        if (this.board[row + i][col] === 1) {
+          throw new Error('Ships cannot overlap');
+        }
+
+        this.board[row + i][col] = 1;
+      }
     }
 
     this.ships.push(ship);
