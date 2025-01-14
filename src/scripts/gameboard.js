@@ -3,6 +3,7 @@ export class Gameboard {
     this.size = size;
     this.board = this.buildBoard(this.size);
     this.ships = [];
+    this.attackedLocations = [];
   }
 
   buildBoard(size) {
@@ -60,14 +61,26 @@ export class Gameboard {
   }
 
   receiveAttack(row, col) {
+    // Check if the location has already been attacked
+    for (let attack of this.attackedLocations) {
+      if (attack.row === row && attack.col === col) {
+        return {
+          hit: null,
+          ship: null,
+          sunk: null,
+          message: 'Location already attacked!',
+        };
+      }
+    }
+
+    // Mark the location as attacked
+    this.attackedLocations.push({ row, col });
+
     for (let ship of this.ships) {
       if (this.board[row][col] === 1) {
         for (let i = 0; i < ship.location.length; i++) {
-          const { row: shipRow, col: shipCol } = ship.location[i];
-
-          if (shipRow === row && shipCol === col) {
+          if (ship.location[i].row === row && ship.location[i].col === col) {
             ship.hit();
-
             return {
               hit: true,
               ship: ship,
@@ -76,12 +89,14 @@ export class Gameboard {
           }
         }
       }
-
-      return {
-        hit: false,
-        ship: null,
-        sunk: false,
-      };
     }
+
+    // If no ship was hit
+    this.attackedLocations.push({ row: row, col: col });
+    return {
+      hit: false,
+      ship: null,
+      sunk: false,
+    };
   }
 }
