@@ -7,6 +7,7 @@ beforeEach(() => {
   board = new Gameboard(10);
 });
 
+// Gameboard
 describe('Gameboard', () => {
   it('should be an Object', () => {
     expect(board).toBeInstanceOf(Object);
@@ -22,6 +23,7 @@ describe('Gameboard', () => {
   });
 });
 
+// Ship Placement
 describe('ship placement', () => {
   const ship = { length: 5 };
 
@@ -42,7 +44,17 @@ describe('ship placement', () => {
     ];
 
     expect(board.board).toEqual(expectedBoard);
-    expect(board.ships).toContain(ship);
+    expect(board.ships).toContainEqual(ship);
+
+    const expectedLocation = [
+      { row: 1, col: 1 },
+      { row: 1, col: 2 },
+      { row: 1, col: 3 },
+      { row: 1, col: 4 },
+      { row: 1, col: 5 },
+    ];
+
+    expect(ship.location).toEqual(expectedLocation);
   });
 
   test('Should place a ship vertically store in the ships array', () => {
@@ -63,6 +75,16 @@ describe('ship placement', () => {
 
     expect(board.board).toEqual(expectedBoard);
     expect(board.ships).toContain(ship);
+
+    const expectedLocation = [
+      { row: 1, col: 1 },
+      { row: 2, col: 1 },
+      { row: 3, col: 1 },
+      { row: 4, col: 1 },
+      { row: 5, col: 1 },
+    ];
+
+    expect(ship.location).toEqual(expectedLocation);
   });
 
   test('Horizontal placement should not allow out-of-bounds', () => {
