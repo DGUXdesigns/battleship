@@ -24,11 +24,14 @@ export class Gameboard {
       throw new Error('Ships cannot overlap');
     }
 
+    ship.location = [];
+
     for (let i = 0; i < ship.length; i++) {
       const currentRow = direction === 'horizontal' ? row : row + i;
       const currentCol = direction === 'horizontal' ? col + i : col;
 
       this.board[currentRow][currentCol] = 1;
+      ship.location.push({ row: currentRow, col: currentCol });
     }
 
     this.ships.push(ship);
@@ -54,5 +57,31 @@ export class Gameboard {
       }
     }
     return false;
+  }
+
+  receiveAttack(row, col) {
+    for (let ship of this.ships) {
+      if (this.board[row][col] === 1) {
+        for (let i = 0; i < ship.location.length; i++) {
+          const { row: shipRow, col: shipCol } = ship.location[i];
+
+          if (shipRow === row && shipCol === col) {
+            ship.hit();
+
+            return {
+              hit: true,
+              ship: ship,
+              sunk: ship.sunk,
+            };
+          }
+        }
+      }
+
+      return {
+        hit: false,
+        ship: null,
+        sunk: false,
+      };
+    }
   }
 }
