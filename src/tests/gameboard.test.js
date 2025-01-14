@@ -103,7 +103,7 @@ describe('receiveAttack', () => {
   });
 
   it('should mark the ship as hit', () => {
-    const result = board.receiveAttack(1, 1);
+    board.receiveAttack(1, 1);
 
     expect(ship.hit).toHaveBeenCalled();
   });
@@ -121,7 +121,6 @@ describe('receiveAttack', () => {
   });
 
   it('should return the correct hit result when the ship is sunk', () => {
-    // After sinking the ship
     ship.hit.mockImplementationOnce(() => {
       ship.sunk = true;
     });
@@ -131,5 +130,18 @@ describe('receiveAttack', () => {
 
     expect(result.hit).toBe(true);
     expect(result.sunk).toBe(true);
+  });
+
+  test("Can't attack the same location twice", () => {
+    board.receiveAttack(1, 1);
+    const result = board.receiveAttack(1, 1);
+
+    expect(result.hit).toBe(null);
+  });
+
+  test('attack locations should be saved', () => {
+    board.receiveAttack(7, 7);
+
+    expect(board.attackedLocations).toContainEqual({ row: 7, col: 7 });
   });
 });
