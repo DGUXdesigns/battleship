@@ -25,7 +25,7 @@ describe('Gameboard', () => {
 describe('ship placement', () => {
   const ship = { length: 5 };
 
-  test('placeShipHorizontal places a ship horizantally on the board', () => {
+  test('Should place a ship horizontally store in the ships array', () => {
     board.placeShip(ship, 1, 1, 'horizontal');
 
     const expectedBoard = [
@@ -42,10 +42,11 @@ describe('ship placement', () => {
     ];
 
     expect(board.board).toEqual(expectedBoard);
+    expect(board.ships).toContain(ship);
   });
 
-  test('placeShipVertical places a ship vertically on the board', () => {
-    board.placeShip(ship, 1, 1);
+  test('Should place a ship vertically store in the ships array', () => {
+    board.placeShip(ship, 1, 1, 'vertical');
 
     const expectedBoard = [
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -61,6 +62,7 @@ describe('ship placement', () => {
     ];
 
     expect(board.board).toEqual(expectedBoard);
+    expect(board.ships).toContain(ship);
   });
 
   test('Horizontal placement should not allow out-of-bounds', () => {
@@ -71,7 +73,7 @@ describe('ship placement', () => {
 
   test('Vertical placement should not allow out-of-bounds', () => {
     expect(() => {
-      board.placeShip(ship, 9, 0);
+      board.placeShip(ship, 9, 0, 'vertical');
     }).toThrowError('Cannot place ship here');
   });
 
@@ -85,7 +87,7 @@ describe('ship placement', () => {
     }).toThrowError('Ships cannot overlap');
 
     expect(() => {
-      board.placeShip(ship2, 1, 2);
+      board.placeShip(ship2, 1, 2, 'vertical');
     }).toThrowError('Ships cannot overlap');
   });
 });
