@@ -6,6 +6,16 @@ export class Gameboard {
     this.attackedLocations = [];
   }
 
+  gameOver() {
+    if (this.ships.length === 0) {
+      return undefined;
+    }
+
+    return this.ships.every((ship) => ship.sunk)
+      ? 'Game over, all your ships have sunk'
+      : undefined;
+  }
+
   buildBoard(size) {
     let board = [];
 
