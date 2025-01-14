@@ -13,4 +13,16 @@ export class Gameboard {
 
     return board;
   }
+
+  placeShipHorizontal(ship, row, col) {
+    for (let i = 0; i < ship.length; i++) {
+      this.board[row][col + i] = 1;
+    }
+  }
+
+  placeShipVertical(ship, row, col) {
+    for (let i = 0; i < ship.length; i++) {
+      this.board[row + i][col] = 1;
+    }
+  }
 }
