@@ -2,6 +2,7 @@ import { Gameboard } from './gameboard';
 
 export class Player {
   constructor(player) {
+    this.playerName = player;
     this.playerType = this.isComputer(player);
     this.gameboard = new Gameboard(10);
   }
