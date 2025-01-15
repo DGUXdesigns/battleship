@@ -20,7 +20,7 @@ describe('Ship Class', () => {
     expect(ship).toHaveProperty('sunk');
   });
 
-  test('Hits should increment by hits count', () => {
+  test('Hit should increment hits count', () => {
     expect(ship.hits).toBe(0);
 
     ship.hit(); // Use renamed method
