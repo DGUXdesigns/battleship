@@ -1,0 +1,92 @@
+*,
+::after,
+::before {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+  /* Primary Colors */
+  --deep-ocean-blue: #0a2a43; /* Background */
+  --battle-gray: #4b4b4b; /* Ships and grid lines */
+
+  /* Secondary Colors */
+  --crimson-red: #e63946; /* Hits or critical actions */
+  --teal-green: #2a9d8f; /* Misses or secondary highlights */
+
+  /* Accent Colors */
+  --smoke-gray: #a3a3a3; /* Text and less critical elements */
+  --cyan-glow: #56ccf2;
+}
+
+html {
+  background-color: var(--deep-ocean-blue);
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+  height: 80px;
+  padding: 1.5rem;
+}
+
+main {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+/* form styling */
+form,
+form div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+form {
+  gap: 2rem;
+}
+
+form div {
+  gap: 0.5rem;
+}
+
+label {
+  font-size: 1.5rem;
+}
+
+input,
+form button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  color: #fff;
+}
+
+input {
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: border 0.2s ease;
+}
+
+input:focus {
+  outline: none;
+  border: 2px solid var(--cyan-glow);
+}
+
+form button {
+  background-color: var(--cyan-glow);
+  font-weight: 700;
+}
