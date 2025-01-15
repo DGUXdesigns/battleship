@@ -13,6 +13,7 @@ export class StartScreen {
   createForm() {
     const form = document.createElement('form');
     form.id = 'start-form';
+    form.setAttribute('novalidate');
 
     const div = document.createElement('div');
     const label = document.createElement('label');
@@ -26,11 +27,14 @@ export class StartScreen {
     input.placeholder = 'Captain';
     input.required = true;
 
+    const error = document.createElement('div');
+    error.classList.add('error');
+
     const button = document.createElement('button');
     button.type = 'submit';
     button.innerText = 'Start Game';
 
-    div.append(label, input);
+    div.append(label, input, error);
     form.append(div, button);
 
     return form;
