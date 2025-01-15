@@ -12,6 +12,8 @@ export class StartScreen {
 
   createForm() {
     const form = document.createElement('form');
+    form.id = 'start-form';
+
     const div = document.createElement('div');
     const label = document.createElement('label');
     label.htmlFor = 'name';
