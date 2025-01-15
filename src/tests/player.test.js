@@ -17,8 +17,8 @@ describe('Player', () => {
   });
 
   it('should differentiate between real and computer players', () => {
-    expect(realPlayer.type).toBe('real');
-    expect(computerPlayer.type).toBe('computer');
+    expect(realPlayer.playerType).toBe('human');
+    expect(computerPlayer.playerType).toBe('computer');
   });
 
   it('real player should be able to attack a location', () => {
