@@ -35,6 +35,13 @@ body {
 }
 
 header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 80px;
   padding: 1.5rem;
 }
@@ -96,4 +103,12 @@ form button {
   color: var(--crimson-red);
   font-size: 0.75rem;
   height: 1.5rem;
+}
+
+/* game board styling */
+.gameboard {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  width: 300px;
 }
