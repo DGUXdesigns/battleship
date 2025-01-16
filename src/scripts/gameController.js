@@ -1,8 +1,7 @@
-import { Ship } from './scripts/ship';
+import { Ship } from './ship';
 
 export class GameController {
-  constructor(container, playerOne, playerTwo) {
-    this.container = document.querySelector(container);
+  constructor(playerOne, playerTwo) {
     this.playerOne = playerOne;
     this.playerTwo = playerTwo;
 
@@ -21,9 +20,9 @@ export class GameController {
         col: 0,
         direction: 'horizontal',
       },
-      { name: 'Cruiser', length: 3, row: 2, col: 2, direction: 'vertical' },
-      { name: 'Submarine', length: 3, row: 2, col: 2, direction: 'vertical' },
-      { name: 'Destroyer', length: 2, row: 2, col: 2, direction: 'vertical' },
+      { name: 'Cruiser', length: 3, row: 2, col: 7, direction: 'vertical' },
+      { name: 'Submarine', length: 3, row: 8, col: 1, direction: 'horizontal' },
+      { name: 'Destroyer', length: 2, row: 7, col: 5, direction: 'horizontal' },
     ];
 
     this.populateShips(this.playerOne, ships);
