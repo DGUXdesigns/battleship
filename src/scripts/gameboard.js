@@ -83,14 +83,12 @@ export class Gameboard {
       }
     }
 
-    // Mark the location as attacked
-    this.attackedLocations.push({ row, col });
-
     for (let ship of this.ships) {
       if (this.board[row][col] === 1) {
         for (let i = 0; i < ship.location.length; i++) {
           if (ship.location[i].row === row && ship.location[i].col === col) {
             ship.hit();
+            this.board[row][col] = 'H';
             return {
               hit: true,
               ship: ship,
@@ -102,11 +100,15 @@ export class Gameboard {
     }
 
     // If no ship was hit
-    this.attackedLocations.push({ row: row, col: col });
-    return {
-      hit: false,
-      ship: null,
-      sunk: false,
-    };
+    if (this.board[row][col] === 0) {
+      // Mark the location as attacked
+      this.attackedLocations.push({ row, col });
+      this.board[row][col] = 'M';
+      return {
+        hit: false,
+        ship: null,
+        sunk: false,
+      };
+    }
   }
 }
