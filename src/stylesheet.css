@@ -26,6 +26,7 @@ html {
 
 body {
   height: 100vh;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,7 +43,7 @@ header {
   top: 0;
   left: 0;
   right: 0;
-  height: 80px;
+  height: 5rem;
   padding: 1.5rem;
 }
 
@@ -52,6 +53,7 @@ main {
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
+  width: 100%;
 }
 
 /* form styling */
@@ -90,7 +92,7 @@ input {
 
 input:focus {
   outline: none;
-  border: 2px solid var(--cyan-glow);
+  border: 0.125rem solid var(--cyan-glow);
 }
 
 form button {
@@ -106,9 +108,34 @@ form button {
 }
 
 /* game board styling */
+.game-container {
+  display: flex;
+  gap: 2rem;
+}
+
 .gameboard {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
-  width: 300px;
+  width: 18.75rem;
+  height: 18.75rem;
+  border: 1px solid var(--battle-gray);
+}
+
+.cell {
+  width: 1.875rem;
+  height: 1.875rem;
+  border: 1px solid var(--battle-gray);
+}
+
+.cell.ship {
+  background-color: var(--cyan-glow);
+}
+
+.cell.miss {
+  background-color: var(--smoke-gray);
+}
+
+.cell.hit {
+  background-color: var(--crimson-red);
 }
