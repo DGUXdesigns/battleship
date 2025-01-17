@@ -23,10 +23,10 @@ describe('Ship Class', () => {
   test('Hit should increment hits count', () => {
     expect(ship.hits).toBe(0);
 
-    ship.hit(); // Use renamed method
+    ship.hit();
     expect(ship.hits).toBe(1);
 
-    ship.hit(); // Use renamed method
+    ship.hit();
     expect(ship.hits).toBe(2);
   });
 });
