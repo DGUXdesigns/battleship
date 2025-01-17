@@ -13,7 +13,7 @@ export class StartScreen {
   createForm() {
     const form = document.createElement('form');
     form.id = 'start-form';
-    form.setAttribute('novalidate');
+    form.noValidate = true;
 
     const div = document.createElement('div');
     const label = document.createElement('label');
@@ -24,7 +24,7 @@ export class StartScreen {
     input.id = 'name';
     input.type = 'text';
     input.name = 'name';
-    input.placeholder = 'Captain';
+    input.placeholder = 'Combatant Name';
     input.required = true;
 
     const error = document.createElement('div');
