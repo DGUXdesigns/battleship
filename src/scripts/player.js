@@ -13,9 +13,15 @@ export class Player {
 
   attack(gameboard, row, col) {
     if (this.playerType === 'computer') {
+      console.log('computer is attacking');
       row = Math.floor(Math.random() * 10);
       col = Math.floor(Math.random() * 10);
-      if (gameboard.receiveAttack(row, col).hit !== null) {
+
+      const attackResult = gameboard.receiveAttack(row, col);
+
+      if (attackResult.hit === null) {
+        console.log('attacking again');
+        this.attack(gameboard, row, col);
         return;
       }
     }
